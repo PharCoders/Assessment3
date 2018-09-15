@@ -147,8 +147,19 @@ public class Booking {
 
 
 	public void addServiceCharge(ServiceType serviceType, double cost) {
-		// TODO Auto-generated method stub
-	}
+		
+		if(state != State.CHECKED_IN){		//If the state is not checked in 
+            String msg = String.format("Booking: checkOut : bad state : %s", new Object[] {state});		//Setting the Exception message
+            throw new RuntimeException(msg);	//Throws the RunTimeException error message
+        } //if
+		
+		else{		//If checked in
+			ServiceCharge charge = new ServiceCharge(serviceType, cost);	//Creates new ServiceCharge object
+            charges.add(charge);	//Adds the ServiceCharge to charges List
+            return;	
+        } //else
+			
+	} //addServiceCharge
 
 
 	public void checkOut() {
