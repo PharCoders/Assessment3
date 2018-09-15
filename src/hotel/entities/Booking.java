@@ -152,7 +152,18 @@ public class Booking {
 
 
 	public void checkOut() {
-		// TODO Auto-generated method stub
-	}
+		
+		if(state != State.CHECKED_IN){		//If the state is not checked in 
+            String msg = String.format("Booking: checkOut : bad state : %s", new Object[] {state});		//Setting the Exception message
+            throw new RuntimeException(msg);	//Throws the RunTimeException error message
+        } //if
+		
+		else{		//If checked in
+			room.checkout(this);		//Calls the checkout method in room class
+			state = State.CHECKED_OUT;		//Sets the state to checked out
+            return;	
+        } //else
+			
+	} //checkOut()
 
 }
