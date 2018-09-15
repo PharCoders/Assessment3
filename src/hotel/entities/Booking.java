@@ -133,8 +133,17 @@ public class Booking {
 
 
 	public void checkIn() {
-		// TODO Auto-generated method stub
-	}
+		
+		if(state != State.PENDING){		//If the state is not pending
+            String msg = String.format("Booking: checkIn : bad state : %s", new Object[] {state});		//Setting the Exception message
+            throw new RuntimeException(msg);	//Throws the RunTimeException error message
+        } //if
+		else{		//If pending
+			room.checkin();		//Calls the checkin method in room class
+			state = State.CHECKED_IN;		//Sets the state to checkedIn
+            return;	
+        } //else
+	} //checkIn()
 
 
 	public void addServiceCharge(ServiceType serviceType, double cost) {
