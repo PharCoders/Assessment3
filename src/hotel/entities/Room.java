@@ -79,9 +79,18 @@ public class Room {
 	} //method ends.
 
 
-	public void checkout(Booking booking) {
-		// TODO Auto-generated method stub
-	}
+	public void checkout (Booking booking) { //method to checkout which takes the booking created as an argument.
+		if (state != State.OCCUPIED) { //executes if statement when state is not set to occupied.
+            String except = String.format ("Room: checkout : bad state : %s", new Object[] {state}); //Gives the exception message and it is named as except.
+            throw new RuntimeException(except); //throws the RuntimeException message except.
+        } //if statement ends.
+		
+		else{ //executes else statement when state is set to occupied.
+            bookings.remove(booking); //removes booking from bookings.
+            state = State.READY; //sets the state again to ready.
+            return;
+        } //else statement ends.
+	} //method ends.
 
 
 }
