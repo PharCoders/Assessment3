@@ -59,20 +59,38 @@ public class Room {
 	}
 
 
-	public Booking book(Guest guest, Date arrivalDate, int stayLength, int numberOfOccupants, CreditCard creditCard) {
-		// TODO Auto-generated method stub
-		return null;		
-	}
+	public Booking book (Guest guest, Date arrivalDate, int stayLength, int numberOfOccupants, CreditCard creditCard) { //method to create a new booking.
+		Booking booking = new Booking (guest, arrivalDate, stayLength, numberOfOccupants, creditCard); //creates a new booking named booking.
+		bookings.add(booking); //Inserts booking into bookings.
+		return booking; //returns booking.
+	} //method ends.
 
 
-	public void checkin() {
-		// TODO Auto-generated method stub
-	}
+	public void checkin() { //method to checkin.
+		if (state != State.READY) { //executes if statement when state is not set to ready.
+            String except = String.format ("Room: checkin : bad state : %s", new Object[] {state}); //Gives the exception message and it is named as except.
+            throw new RuntimeException(except); //throws the RuntimeException message except.
+        } //if statement ends.
+		
+		else { //executes else statement when state is set to ready.
+            state = State.OCCUPIED; //sets the state to occupied. 
+            return;
+        } //else statement ends.
+	} //method ends.
 
 
-	public void checkout(Booking booking) {
-		// TODO Auto-generated method stub
-	}
+	public void checkout (Booking booking) { //method to checkout which takes the booking created as an argument.
+		if (state != State.OCCUPIED) { //executes if statement when state is not set to occupied.
+            String except = String.format ("Room: checkout : bad state : %s", new Object[] {state}); //Gives the exception message and it is named as except.
+            throw new RuntimeException(except); //throws the RuntimeException message except.
+        } //if statement ends.
+		
+		else{ //executes else statement when state is set to occupied.
+            bookings.remove(booking); //removes booking from bookings.
+            state = State.READY; //sets the state again to ready.
+            return;
+        } //else statement ends.
+	} //method ends.
 
 
 }
