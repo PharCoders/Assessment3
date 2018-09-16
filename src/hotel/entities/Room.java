@@ -59,10 +59,11 @@ public class Room {
 	}
 
 
-	public Booking book(Guest guest, Date arrivalDate, int stayLength, int numberOfOccupants, CreditCard creditCard) {
-		// TODO Auto-generated method stub
-		return null;		
-	}
+	public Booking book (Guest guest, Date arrivalDate, int stayLength, int numberOfOccupants, CreditCard creditCard) { //method to create a new booking.
+		Booking booking = new Booking (guest, arrivalDate, stayLength, numberOfOccupants, creditCard); //creates a new booking named booking.
+		bookings.add(booking); //Inserts booking into bookings.
+		return booking; //returns booking.
+	} //method ends.
 
 
 	public void checkin() {
