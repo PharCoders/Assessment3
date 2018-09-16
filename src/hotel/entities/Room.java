@@ -66,9 +66,17 @@ public class Room {
 	} //method ends.
 
 
-	public void checkin() {
-		// TODO Auto-generated method stub
-	}
+	public void checkin() { //method to checkin.
+		if (state != State.READY) { //executes if statement when state is not set to ready.
+            String except = String.format ("Room: checkin : bad state : %s", new Object[] {state}); //Gives the exception message and it is named as except.
+            throw new RuntimeException(except); //throws the RuntimeException message except.
+        } //if statement ends.
+		
+		else { //executes else statement when state is set to ready.
+            state = State.OCCUPIED; //sets the state to occupied. 
+            return;
+        } //else statement ends.
+	} //method ends.
 
 
 	public void checkout(Booking booking) {
