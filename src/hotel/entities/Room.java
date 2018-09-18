@@ -68,7 +68,7 @@ public class Room {
 
 	public void checkin() { //method to checkin.
 		if (state != State.READY) { //executes if statement when state is not set to ready.
-            String except = String.format ("Room: checkin : bad state : %s", new Object[] {state}); //Gives the exception message and it is named as except.
+            String except = String.format ("State is not ready so it throws RuntimeException message named except", new Object[] {state}); //Gives the exception message and it is named as except.
             throw new RuntimeException(except); //throws the RuntimeException message except.
         } //if statement ends.
 		
@@ -81,7 +81,7 @@ public class Room {
 
 	public void checkout (Booking booking) { //method to checkout which takes the booking created as an argument.
 		if (state != State.OCCUPIED) { //executes if statement when state is not set to occupied.
-            String except = String.format ("Room: checkout : bad state : %s", new Object[] {state}); //Gives the exception message and it is named as except.
+            String except = String.format ("State is not occupied so it throws RuntimeException message named except", new Object[] {state}); //Gives the exception message and it is named as except.
             throw new RuntimeException(except); //throws the RuntimeException message except.
         } //if statement ends.
 		
