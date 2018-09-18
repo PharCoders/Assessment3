@@ -48,9 +48,19 @@ public class RecordServiceCTL {
 	}
 	
 	
-	public void serviceDetailsEntered(ServiceType serviceType, double cost) {
-		// TODO Auto-generated method stub
-	}
+	public void serviceDetailsEntered(ServiceType serviceType, double cost) { //method to check service details entered which takes serviceType and cost as an argument.
+        if (state != State.SERVICE) { //executes if statement when state is not set to service.
+            String except = String.format("State is not service so it throws RuntimeException message named except", new Object[] {state}); //Gives the exception message named except.
+            throw new RuntimeException(except); //throws RuntimeException message named except.
+        } // if statement ends.
+		else{ //executes else statement when state is set to service.
+			hotel.addServiceCharge(roomNumber, serviceType, cost); //calls addServiceCharge.
+            recordServiceUI.displayServiceChargeMessage(roomNumber, cost, serviceType.getDescription()); //calls ui displayServiceChargeMessage.
+            state = State.COMPLETED; //sets the state to completed. 
+            recordServiceUI.setState(RecordServiceUI.State.COMPLETED); //sets the state of ui to completed.
+            return;
+        } //else statement ends.
+    } //method ends.
 
 
 	public void cancel() {
