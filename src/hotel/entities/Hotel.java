@@ -84,13 +84,13 @@ public class Hotel {
 		return bookingsByConfirmationNumber.get(confirmationNumber);
 	}
 
-	
-	public long book(Room room, Guest guest, 
-			Date arrivalDate, int stayLength, int occupantNumber,
-			CreditCard creditCard) {
-		// TODO Auto-generated method stub
-		return 0L;		
-	}
+	//this method returns a unique confirmation number for a booking.
+public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int occupantNumber, CreditCard creditCard) {
+        Booking booking = room.book(guest, arrivalDate, stayLength, occupantNumber, creditCard); //calls room.book.
+        long confirmationNumber = booking.getConfirmationNumber();
+        bookingsByConfirmationNumber.put(Long.valueOf(confirmationNumber), booking); //it inserts booking.
+        return confirmationNumber; //returns confirmation number.
+    }
 
 	
 	public void checkin(long confirmationNumber) {
