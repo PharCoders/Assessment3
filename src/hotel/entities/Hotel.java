@@ -85,7 +85,7 @@ public class Hotel {
 	}
 
 	
-public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int occupantNumber, CreditCard creditCard) { // starts the book method.
+	public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int occupantNumber, CreditCard creditCard) { // starts the book method.
         Booking booking = room.book(guest, arrivalDate, stayLength, occupantNumber, creditCard); // calls room.book.
         long confirmationNumber = booking.getConfirmationNumber();// calls booking.getConfirmationNumber.
         bookingsByConfirmationNumber.put(Long.valueOf(confirmationNumber), booking); // inserts the booking into bookingsByConfirmationNumber.
@@ -93,10 +93,19 @@ public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int o
     } //method closes.
 
 	
-	public void checkin(long confirmationNumber) {
-		// TODO Auto-generated method stub
-	}
-
+	public void checkin(long confirmationNumber) { //starts checkin method.
+        Booking booking = (Booking)bookingsByConfirmationNumber.get(Long.valueOf(confirmationNumber)); //calls booking from bookingsByConfirmationNumber.
+        if(booking == null) { // throws exception message if booking is null.
+            String errorMessage = String.format("Hotel: checkin: No booking found for confirmation number %d", new Object[] {Long.valueOf(confirmationNumber)});
+            throw new RuntimeException(errorMessage);
+        } 
+		else { 
+            int roomId = booking.getRoomId(); //calls booking.getRoomId.
+            booking.checkIn(); //calls booking.checkIn.
+            activeBookingsByRoomId.put(Integer.valueOf(roomId), booking); //inserts booking.
+            return;
+        }
+    }
 
 	public void addServiceCharge(int roomId, ServiceType serviceType, double cost) {
 		// TODO Auto-generated method stub
