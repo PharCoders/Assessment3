@@ -94,16 +94,18 @@ public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int o
     }
 
 	
-	public void checkin(long confirmationNumber) { //starts checkin method.
-        Booking booking = (Booking)bookingsByConfirmationNumber.get(Long.valueOf(confirmationNumber)); //calls booking from bookingsByConfirmationNumber.
-        if(booking == null) { // throws exception message if booking is null.
-            String errorMessage = String.format("Hotel: checkin: No booking found for confirmation number %d", new Object[] {Long.valueOf(confirmationNumber)});
-            throw new RuntimeException(errorMessage);
+	// this method throws runtimeException if no booking for the perticular confirmation number exits.
+public void checkin(long confirmationNumber) {
+        Booking booking = (Booking)bookingsByConfirmationNumber.get(Long.valueOf(confirmationNumber)); //extracts bookings from bookingByConfirmationNumber.
+        if(booking == null) {
+            String errordialogue = String.format("Hotel: checkin: No booking found for confirmation number %d", new Object[] {
+				Long.valueOf(confirmationNumber)});
+            throw new RuntimeException(errordialogue); //if booking is null it throws runtimeexception.
         } 
-		else { 
-            int roomId = booking.getRoomId(); //calls booking.getRoomId.
-            booking.checkIn(); //calls booking.checkIn.
-            activeBookingsByRoomId.put(Integer.valueOf(roomId), booking); //inserts booking.
+		else {
+            int roomId = booking.getRoomId(); //else calls booking.getRoomId.
+            booking.checkIn(); //calls booking.checkIn
+            activeBookingsByRoomId.put(Integer.valueOf(roomId), booking); //Inserts booking in activeBookingsByRoomId
             return;
         }
     }
