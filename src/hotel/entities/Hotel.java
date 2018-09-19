@@ -124,18 +124,18 @@ public void addServiceCharge(int roomId, ServiceType serviceType, double cost) {
         }
     }
 	
-public void checkout(int roomId) { //starts checkout method.
-        Booking booking = (Booking)activeBookingsByRoomId.get(Integer.valueOf(roomId)); //calls booking from activeBookingsByRoomId.
-        if(booking == null) { //throws exception message if booking is null.
-            String errorMessage = String.format("Hotel: checkout: no booking present for room id : %d", new Object[] {Integer.valueOf(roomId)});
-            throw new RuntimeException(errorMessage);
+// throws a RuntimeException if no active booking associated with the room identified by roomID can be found
+//The Booking referenced by confirmationNumber should have a state of CHECKED_OUT
+public void checkout(int roomId) {
+        Booking booking = (Booking)activeBookingsByRoomId.get(Integer.valueOf(roomId)); //it extracts booking from activeBookingsByRoomId.
+        if(booking == null) {
+            String errordialogue = String.format("Hotel: checkout: no booking present for room id : %d", new Object[] {
+				Integer.valueOf(roomId)});
+            throw new RuntimeException(errordialogue); //if booking is null it throws RumtimeException
         } 
 		else{
-            booking.checkOut(); //calls booking.checkOut.
-            activeBookingsByRoomId.remove(Integer.valueOf(roomId)); //removes booking.
+            booking.checkOut(); //calls booking.checkout
+            activeBookingsByRoomId.remove(Integer.valueOf(roomId)); it removes booking from activeBookingByRoomId
             return;
         }
     }
-
-
-}
