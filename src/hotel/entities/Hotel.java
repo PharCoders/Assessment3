@@ -84,7 +84,7 @@ public class Hotel {
 		return bookingsByConfirmationNumber.get(confirmationNumber);
 	}
 
-<<<<<<< HEAD
+
 	//this method returns a unique confirmation number for a booking.
 public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int occupantNumber, CreditCard creditCard) {
         Booking booking = room.book(guest, arrivalDate, stayLength, occupantNumber, creditCard); //calls room.book.
@@ -92,15 +92,6 @@ public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int o
         bookingsByConfirmationNumber.put(Long.valueOf(confirmationNumber), booking); //it inserts booking.
         return confirmationNumber; //returns confirmation number.
     }
-=======
-	
-	public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int occupantNumber, CreditCard creditCard) { // starts the book method.
-        Booking booking = room.book(guest, arrivalDate, stayLength, occupantNumber, creditCard); // calls room.book.
-        long confirmationNumber = booking.getConfirmationNumber();// calls booking.getConfirmationNumber.
-        bookingsByConfirmationNumber.put(Long.valueOf(confirmationNumber), booking); // inserts the booking into bookingsByConfirmationNumber.
-        return confirmationNumber; // returns confirmationNumber
-    } //method closes.
->>>>>>> master
 
 	
 	public void checkin(long confirmationNumber) { //starts checkin method.
