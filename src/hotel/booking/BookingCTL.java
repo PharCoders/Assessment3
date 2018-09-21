@@ -136,9 +136,45 @@ public class BookingCTL {
 	}
 
 
-	public void creditDetailsEntered(CreditCardType type, int number, int ccv) {
-		// TODO Auto-generated method stub
-	}
+	public void creditDetailsEntered(CreditCardType type, int number, int ccv){
+		
+        if(state != State.CREDIT){		//If state is not CREDIT
+            String msg = String.format("BookingCTL: bookingTimesEntered : bad state : %s", new Object[] {state});	//Setting the Exception message
+            throw new RuntimeException(msg);	//Throws the RunTimeException error message
+        }
+		
+        CreditCard creditCard = new CreditCard(type, number, ccv);	//Create new Credit Card object
+		
+        boolean approved = CreditAuthorizer.getInstance().authorize(creditCard, cost);
+		//Initializes boolean value approve and checks creditCard with authorizer
+		
+        if(approved){		//If card approved
+			long confirmationNumber = hotel.book(room, guest, arrivalDate, stayLength, occupantNumber, creditCard); //Calls Hotel.book
+			
+			//Initializaing variables for confirmed method
+            String roomDecription = room.getDescription();
+            int roomNumber = room.getId();
+            String guestName = guest.getName();
+            String creditCardVendor = creditCard.getVendor();
+            int cardNumber = creditCard.getNumber();
+			
+            bookingUI.displayConfirmedBooking(roomDecription, roomNumber, arrivalDate, stayLength, guestName, creditCardVendor, cardNumber, cost, confirmationNumber);
+            //calls bookingUI.displayConfirmedBooking
+			
+			state = State.COMPLETED;	//Set State to COMPLETED
+            bookingUI.setState(BookingUI.State.COMPLETED);	//Set bookingUI state to COMPLETED
+            
+        } 
+		
+		else{	//If not approved
+			String creditNotApproved = String.format("\n%s credit card number %d was not approved for $%.2f\n", new Object[] {
+                creditCard.getType().getVendor(), Integer.valueOf(creditCard.getNumber()), Double.valueOf(cost)
+            });		//Setting Exception Mmssage
+            bookingUI.displayMessage(creditNotApproved);		//calls BookingUI.displayMessage with credit not approved message
+			
+        }
+		
+    }
 
 
 	public void cancel() {
