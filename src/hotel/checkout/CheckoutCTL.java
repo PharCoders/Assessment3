@@ -96,10 +96,30 @@ public class CheckoutCTL {
 		}		
 	}
 
-	
+	// this method is responsible for the payment.
 	public void creditDetailsEntered(CreditCardType type, int number, int ccv) {
-		// TODO Auto-generated method stub
-	}
+		
+        if(state != State.CREDIT){ // this statement checks whether the state is credit or not.
+            String notification = String.format("wrong input");
+            throw new RuntimeException(notification); // if the state is not credit it will throws runtimeexception.
+        }
+        CreditCard card = new CreditCard(type, number, ccv);
+		
+        boolean approved = CreditAuthorizer.getInstance().authorize(card, total); // this initialzie the boolean value
+		
+        if(approved){ // this will confirms the payment and prints payment complete.
+            hotel.checkout(roomId);
+            String display = String.format("payment approved"); // this will print "payment approved".
+            checkoutUI.displayMessage(display);
+            state = State.COMPLETED;
+            checkoutUI.setState(CheckoutUI.State.COMPLETED);
+        }
+		
+		else { // this will print the output "wrong details entered " 
+			String notification = String.format("wrong details entered");
+            checkoutUI.displayMessage(notification);
+        }
+    }
 
 
 	public void cancel() {

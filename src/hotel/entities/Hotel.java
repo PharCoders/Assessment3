@@ -84,54 +84,65 @@ public class Hotel {
 		return bookingsByConfirmationNumber.get(confirmationNumber);
 	}
 
-	
-	public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int occupantNumber, CreditCard creditCard) { // starts the book method.
-        Booking booking = room.book(guest, arrivalDate, stayLength, occupantNumber, creditCard); // calls room.book.
-        long confirmationNumber = booking.getConfirmationNumber();// calls booking.getConfirmationNumber.
-        bookingsByConfirmationNumber.put(Long.valueOf(confirmationNumber), booking); // inserts the booking into bookingsByConfirmationNumber.
-        return confirmationNumber; // returns confirmationNumber
-    } //method closes.
+
+	//this method returns a unique confirmation number for a booking.
+public long book(Room room, Guest guest, Date arrivalDate, int stayLength, int occupantNumber, CreditCard creditCard) {
+        Booking booking = room.book(guest, arrivalDate, stayLength, occupantNumber, creditCard); //calls room.book.
+        long confirmationNumber = booking.getConfirmationNumber();
+        bookingsByConfirmationNumber.put(Long.valueOf(confirmationNumber), booking); //it inserts booking.
+        return confirmationNumber; //returns confirmation number.
+    }
 
 	
-	public void checkin(long confirmationNumber) { //starts checkin method.
-        Booking booking = (Booking)bookingsByConfirmationNumber.get(Long.valueOf(confirmationNumber)); //calls booking from bookingsByConfirmationNumber.
-        if(booking == null) { // throws exception message if booking is null.
-            String errorMessage = String.format("Hotel: checkin: No booking found for confirmation number %d", new Object[] {Long.valueOf(confirmationNumber)});
-            throw new RuntimeException(errorMessage);
+	// this method throws runtimeException if no booking for the perticular confirmation number exits.
+public void checkin(long confirmationNumber) {
+        Booking booking = (Booking)bookingsByConfirmationNumber.get(Long.valueOf(confirmationNumber)); //extracts bookings from bookingByConfirmationNumber.
+        
+		if(booking == null) {
+            String errordialogue = String.format("error message", new Object[] {
+			Long.valueOf(confirmationNumber)});
+            throw new RuntimeException(errordialogue); //if booking is null it throws runtimeexception.
         } 
-		else { 
-            int roomId = booking.getRoomId(); //calls booking.getRoomId.
-            booking.checkIn(); //calls booking.checkIn.
-            activeBookingsByRoomId.put(Integer.valueOf(roomId), booking); //inserts booking.
+		
+		else {
+            int roomId = booking.getRoomId(); //else calls booking.getRoomId.
+            booking.checkIn(); //calls booking.checkIn
+            activeBookingsByRoomId.put(Integer.valueOf(roomId), booking); //Inserts booking in activeBookingsByRoomId
             return;
         }
     }
 
-public void addServiceCharge(int roomId, ServiceType serviceType, double cost) { //starts addServiceCharge method.
-        Booking booking = (Booking)activeBookingsByRoomId.get(Integer.valueOf(roomId)); // calls booking from activeBookingsByRoomId.
-        if(booking == null) { //throws exception message if booking is null.
-            String errorMessage = String.format("Hotel: addServiceCharge: no booking present for room id : %d", new Object[] {Integer.valueOf(roomId)});
-            throw new RuntimeException(errorMessage);
-        } 
-		else{
-            booking.addServiceCharge(serviceType, cost); //calls booking.addServiceCharge.
+	//throws a RuntimeException if no active booking associated with the room identified by roomID can be found
+public void addServiceCharge(int roomId, ServiceType serviceType, double cost) {
+        Booking booking = (Booking)activeBookingsByRoomId.get(Integer.valueOf(roomId)); // it extracts booking from activeBookingsByRoomId.
+       
+	    if(booking == null) {
+            String errordialogue = String.format("error message", new Object[] {
+			Integer.valueOf(roomId)});
+            throw new RuntimeException(errordialogue); //if booking is null it throws RumtimeException.
+        }
+		
+		else  {
+            booking.addServiceCharge(serviceType, cost); //else calls addServiceCharge.
             return;
         }
     }
-
 	
-public void checkout(int roomId) { //starts checkout method.
-        Booking booking = (Booking)activeBookingsByRoomId.get(Integer.valueOf(roomId)); //calls booking from activeBookingsByRoomId.
-        if(booking == null) { //throws exception message if booking is null.
-            String errorMessage = String.format("Hotel: checkout: no booking present for room id : %d", new Object[] {Integer.valueOf(roomId)});
-            throw new RuntimeException(errorMessage);
+// throws a RuntimeException if no active booking associated with the room identified by roomID can be found
+//The Booking referenced by confirmationNumber should have a state of CHECKED_OUT
+public void checkout(int roomId) {
+        Booking booking = (Booking)activeBookingsByRoomId.get(Integer.valueOf(roomId)); //it extracts booking from activeBookingsByRoomId.
+        
+		if(booking == null) {
+            String errordialogue = String.format("error message", new Object[] {
+			Integer.valueOf(roomId)});
+            throw new RuntimeException(errordialogue); //if booking is null it throws RumtimeException
         } 
-		else{
-            booking.checkOut(); //calls booking.checkOut.
-            activeBookingsByRoomId.remove(Integer.valueOf(roomId)); //removes booking.
+		
+		else  {
+            booking.checkOut(); //calls booking.checkout
+            activeBookingsByRoomId.remove(Integer.valueOf(roomId)); //it removes booking from activeBookingByRoomId
             return;
         }
-    }
-
-
+}
 }
