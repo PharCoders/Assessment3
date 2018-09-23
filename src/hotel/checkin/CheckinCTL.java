@@ -79,9 +79,27 @@ public class CheckinCTL {
 	}
 
 	
-	public void checkInConfirmed(boolean confirmed) {
-		// TODO Auto-generated method stub
-	}
+	public void checkInConfirmed(boolean confirmed){
+
+    if(state != State.CONFIRMING){
+        //if state is not confirming, it will show an RuntimeException Error
+        String error = String.format("Error message", new Object[] {state});
+        throw new RuntimeException(error);
+    }
+    
+    if(confirmed){
+        //boolean confirmed is true
+        hotel.checkin(confirmationNumber);  //calling the checkin method of hotel class
+        checkInUI.displayMessage("Check in confirmed"); //Displaying the confirmation message
+        state = State.COMPLETED;    //changing state to completed
+        checkInUI.setState(CheckinUI.State.COMPLETED);  //changing the UI state to Completed
+    } 
+
+    else{
+        //if not confirming, calling the cancel method
+        cancel();
+    }
+}
 
 
 	public void cancel() {
